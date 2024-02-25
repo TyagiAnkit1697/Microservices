@@ -1,0 +1,51 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/VaccinationDB
+    username: root
+    password: Pakfat50%)11!
+  application:
+    name: VACCINATION-CENTER
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
+  jackson:
+    serialization:
+      indent_output: true
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j.circuitbreaker:
+    instances:
+      CitizenVaccination:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+
+
+
+
+
